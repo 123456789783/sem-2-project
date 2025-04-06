@@ -1,0 +1,41 @@
+#whole-page {
+    display: flex;
+    justify-content: center;
+    
+}
+body {
+    background-color: rgb(34, 34, 34);
+}
+h1{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+p{
+    color:rgb(200,200,200);
+}
+.off-screen-menu {
+    background-color: black;
+    max-width: 150px;
+    width: 100%;
+    color: white;
+    text-align: left;
+    position: fixed;
+    left: 10000000px;
+    border-radius: 5px;
+}
+.off-screen-menu.show {
+    left: 0px;
+}
+.ham-menu {
+    font-size: x-large;
+    color: white;
+    left: 16px;
+    position: fixed;
+}
+a {
+    color:white;
+    text-decoration: none;
+}
+a:hover {
+    color: blue;
+}
