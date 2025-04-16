@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Example</title>
-    <link rel="stylesheet" href="../static/info_stylesheet.css">
-    <script defer src="../static/website.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='info_stylesheet.css') }}">
+    <script defer src="{{ url_for('static', filename='info.js') }}"></script>
 
 </head>
 <body>
@@ -14,10 +14,10 @@
         <div class="off-screen-menu">
             <br>
             <ul>
-                <li><a href="home.html" class="button-link">Home</a></li>
+                <li><a href="{{ url_for('index') }}" class="button-link">Home</a></li>
                 <li>~~~~</li>
                 <li>~~~~</li>
-                <li><a href="mekanism.html" class="button-link">Mekaism</a></li>
+                <li><a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a></li>
             </ul>
         </div>
         <nav>

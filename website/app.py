@@ -12,12 +12,27 @@ def init_db():
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
     conn.commit()
     conn.close()
+    
+def get_db_connection():
+    return sqlite3.connect(DB_FILE)
+
+def authentecate_user(username, password):
+    conn = get_db_connection()
+    c = conn.cursor()
 
 init_db()
 
 @app.route("/")
 def index():
     return render_template("home.html")
+
+@app.route('/mekanism')
+def mekanism():
+    return render_template('mekanism.html')
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -31,7 +46,7 @@ def register():
             conn.commit()
             return render_template('login.html')
         except sqlite3.IntegrityError:
-            return "Username already exists."
+            return f"Username already exists."
         finally:
             conn.close()
     return render_template('register.html')
