@@ -3,13 +3,14 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-
+app.secret_key = 'asdgfnjlskdfjkldfjnb'
 DB_FILE = "database.db"
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
+    cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT)')
     conn.commit()
     conn.close()
     
@@ -22,7 +23,7 @@ def authentecate_user(username, password):
     
     c.execute('SELECT * FROM users WHERE username = ? and password = ?', (username,password))
     user = c.fetchone()
-    return user is not none
+    return user is not None
 
 init_db()
 
@@ -61,7 +62,7 @@ def login():
     password = request.form['password']
     if authentecate_user(username, password):
         session['user'] = username
-        return f"correct info"
+        return render_template('home.html')
     else:
         return f"incorrect username or password"
     
