@@ -19,6 +19,10 @@ def get_db_connection():
 def authentecate_user(username, password):
     conn = get_db_connection()
     c = conn.cursor()
+    
+    c.execute('SELECT * FROM users WHERE username = ? and password = ?', (username,password))
+    user = c.fetchone()
+    return user is not none
 
 init_db()
 
@@ -50,6 +54,18 @@ def register():
         finally:
             conn.close()
     return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    if authentecate_user(username, password):
+        session['user'] = username
+        return f"correct info"
+    else:
+        return f"incorrect username or password"
+    
+    return render_template('login.html')
 
 # Main function that starts the app
 if __name__ == "__main__":
