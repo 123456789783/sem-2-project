@@ -10,7 +10,7 @@ def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
-    cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT, date TEXT)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT, date TEXT, page TEXT)')
     conn.commit()
     conn.close()
     
@@ -67,6 +67,12 @@ def login():
         return f"incorrect username or password"
     
     return render_template('login.html')
+
+@app.route('/comment', methods=['GET', 'POST'])
+def post_comment():
+    page = request.form['page']
+    username = session.get('user')
+    date
 
 # Main function that starts the app
 if __name__ == "__main__":
