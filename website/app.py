@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'asdgfnjlskdfjkldfjnb'
@@ -11,7 +12,7 @@ def init_db():
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
     cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT, date TEXT, page TEXT)')
-    conn.commit()
+    conn.commit();
     conn.close()
     
 def get_db_connection():
@@ -22,7 +23,7 @@ def authentecate_user(username, password):
     c = conn.cursor()
     
     c.execute('SELECT * FROM users WHERE username = ? and password = ?', (username,password))
-    user = c.fetchone()
+    user = c.fetchone();
     return user is not None
 
 init_db()
@@ -33,7 +34,12 @@ def index():
 
 @app.route('/mekanism')
 def mekanism():
-    return render_template('mekanism.html')
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT username, comment, date FROM comments WHERE page = "mekanism" ORDER BY date DESC')
+    comments = c.fetchall()
+    conn.close()
+    return render_template('mekanism.html', comments = comments)
 
 @app.route('/info')
 def info():
@@ -72,7 +78,14 @@ def login():
 def post_comment():
     page = request.form['page']
     username = session.get('user')
-    date
+    date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    comment = request.form['comment']
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('INSERT INTO comments (username, comment, date, page) VALUES (?, ?, ?, ?)', (username, comment, date, page))
+    conn.commit()
+    conn.close()
+    return redirect(url_for(page))
 
 # Main function that starts the app
 if __name__ == "__main__":

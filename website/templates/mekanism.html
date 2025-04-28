@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Example</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}">
-    <script defer src="{{ url_for('static', filename='meka_webstie.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='home.js') }}"></script>
 </head>
 <body>
     <div class="off-screen-menu">
@@ -29,4 +29,15 @@
     Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the endgoal is the anti-matter pellet and <br>
     the gravitatinal modulating unit which are needed to make the atm star.
 </p>
+<br>
+<form action = "/comment" method = "POST">
+    <input type = "hidden" name = "page" value = "mekanism">
+    <textarea name = "comment" required></textarea>
+    <button type="submit">Post Comment</button>
+</form>
+<div>
+    {% for username, comment, date in comments %}
+        <p><strong>{{ username }}</strong> ({{ comment }}): {{ date }}</p>
+    {% endfor %}
+</div>
 </body>

@@ -23,6 +23,7 @@ p{
     left: 10000000px;
     border-radius: 5px;
 }
+
 .off-screen-menu.show {
     left: 0px;
 }
@@ -31,6 +32,11 @@ p{
     color: white;
     left: 16px;
     position: fixed;
+    cursor:pointer;
+    user-select: none;
+}
+.ham-menu:hover{
+    color: blue;
 }
 a {
     color:white;
@@ -38,4 +44,9 @@ a {
 }
 a:hover {
     color: blue;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
 }
