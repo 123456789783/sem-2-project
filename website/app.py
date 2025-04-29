@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ def init_db():
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
     cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT, date TEXT, page TEXT)')
-    conn.commit();
+    conn.commit()
     conn.close()
     
 def get_db_connection():
@@ -23,7 +23,7 @@ def authentecate_user(username, password):
     c = conn.cursor()
     
     c.execute('SELECT * FROM users WHERE username = ? and password = ?', (username,password))
-    user = c.fetchone();
+    user = c.fetchone()
     return user is not None
 
 init_db()
@@ -76,6 +76,10 @@ def login():
 
 @app.route('/comment', methods=['GET', 'POST'])
 def post_comment():
+    if 'username' not in session:
+        flash('You must be signed in to post a comment.', 'overlay')
+        return redirect(request.referrer)
+
     page = request.form['page']
     username = session.get('user')
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="off-screen-menu">
+        <br>
         <ul>
             <li><a href="{{ url_for('index') }}" class="button-link">Home</a></li>
             <li>~~~~</li>
@@ -29,7 +30,9 @@
     Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the endgoal is the anti-matter pellet and <br>
     the gravitatinal modulating unit which are needed to make the atm star.
 </p>
+
 <br>
+
 <form action = "/comment" method = "POST">
     <input type = "hidden" name = "page" value = "mekanism">
     <textarea name = "comment" required></textarea>
@@ -37,7 +40,19 @@
 </form>
 <div>
     {% for username, comment, date in comments %}
-        <p><strong>{{ username }}</strong> ({{ comment }}): {{ date }}</p>
+        <p><strong>{{ username }}</strong> <br>{{ comment }} <br> <span> {{ date }} </span> </p>
     {% endfor %}
+</div>
+
+<div id="overlay-container">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'overlay' %}
+                    <div class="overlay-message">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </div>
 </body>

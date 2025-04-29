@@ -1,17 +1,16 @@
 #whole-page {
     display: flex;
     justify-content: center;
-    
 }
 body {
     background-color: rgb(34, 34, 34);
 }
-h1{
+h1 {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
-p{
-    color:rgb(200,200,200);
+p {
+    color: rgb(200, 200, 200);
 }
 .off-screen-menu {
     background-color: black;
@@ -32,14 +31,15 @@ p{
     color: white;
     left: 16px;
     position: fixed;
-    cursor:pointer;
+    cursor: pointer;
     user-select: none;
+    top: 8px
 }
-.ham-menu:hover{
+.ham-menu:hover {
     color: blue;
 }
 a {
-    color:white;
+    color: white;
     text-decoration: none;
 }
 a:hover {
@@ -50,3 +50,46 @@ ul {
     list-style-type: none;
     padding-left: 20px;
 }
+
+form[action="/comment"] {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    display: flex; 
+    align-items: flex-start; 
+    gap: 10px; 
+}
+
+form[action="/comment"] textarea {
+    width: 50%;
+    height: 20px;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    resize: none;
+}
+
+form[action="/comment"] textarea:focus {
+    outline: none;
+    border-color: #666;
+}
+
+form[action="/comment"] button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: stretch; 
+}
+
+form[action="/comment"] button:hover {
+    background-color: #0056b3;
+}
+
