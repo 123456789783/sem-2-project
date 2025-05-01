@@ -11,7 +11,7 @@ def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
-    cursor.execute('CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, comment TEXT, date TEXT, page TEXT)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS comments (commentId INTEGER PRIMARY KEY AUTOINCREMENT, parentID  username VARCHAR(255), comment TEXT, date TEXT, page TEXT)')
     conn.commit()
     conn.close()
     
@@ -76,7 +76,9 @@ def login():
 
 @app.route('/comment', methods=['GET', 'POST'])
 def post_comment():
+    
     if 'username' not in session:
+        print('username not in session')
         flash('You must be signed in to post a comment.', 'overlay')
         return redirect(request.referrer)
 

@@ -4,7 +4,6 @@ hamMenu.addEventListener('click',() => {
     offScreenMenu.classList.toggle('show');
 }) 
 
-
 setTimeout(() => {
     const overlay = document.getElementById('overlay-container');
      if (overlay) {

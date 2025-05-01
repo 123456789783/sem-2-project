@@ -52,11 +52,10 @@ ul {
 }
 
 form[action="/comment"] {
-    background-color: #1e1e1e;
+    background-color: rgb(34, 34, 34);
     padding: 15px;
     border-radius: 5px;
     margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     display: flex; 
     align-items: flex-start; 
     gap: 10px; 
@@ -112,9 +111,11 @@ form[action="/comment"] button:hover {
 
 .overlay-message {
     color: white;
-    font-size: 24px;
+    display: flex; 
+    font-size: 15px;
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.8);
+    /* background-color: rgba(0, 0, 0, 0.8); */
+    background-color: rgba(214, 16, 138, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);

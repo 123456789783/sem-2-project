@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Example</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}">
-    <script defer src="{{ url_for('static', filename='home.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='meka_website.js') }}"></script>
 </head>
 <body>
     <div class="off-screen-menu">
@@ -23,7 +23,8 @@
            ☰ 
         </div>
    </nav>
-<H1><br>Mekanism</H1>
+<br>
+<h1>Mekanism</h1>
 <p>
     Mekanism is a mod centered around building machines and upgrading machines. <br>
     The progression is centered around 4 tiers of items and machines with each tier being more expensive then the last<br>
@@ -45,12 +46,14 @@
 </div>
 
 <div id="overlay-container" class="{% if messages %}active{% endif %}">
-    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                {% if category == 'overlay' %}
-                    <div class="overlay-message">{{ message }}</div>
-                {% endif %}
+                <div class="overlay-message">{{ message }}</div>
+                <script>
+                    const overlay = document.getElementById('overlay-container');
+                    overlay.classList.toggle('active');
+                </script>
             {% endfor %}
         {% endif %}
     {% endwith %}
