@@ -9,4 +9,4 @@ setTimeout(() => {
      if (overlay) {
         overlay.classList.remove('active');
     }
-}, 5000);
+}, 1000);

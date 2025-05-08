@@ -6,6 +6,8 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'asdgfnjlskdfjkldfjnb'
 DB_FILE = "database.db"
+upload_folder = os.path.join('static', 'Image')
+app.config['UPLOAD'] = upload_folder
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
@@ -75,6 +77,12 @@ def login():
     
     return render_template('login.html')
 
+@app.route('/Logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
+    
+
 @app.route('/comment', methods=['GET', 'POST'])
 def post_comment():
     
@@ -92,6 +100,17 @@ def post_comment():
     conn.commit()
     conn.close()
     return redirect(url_for(page))
+
+@app.route('/upload' , methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['img']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD'], filename))
+        img = os.path.join(app.config['UPLOAD'], filename)
+        return render_template('uploadtest.html', img=img)
+    return render_template('uploadtest.html')
+ 
 
 # Main function that starts the app
 if __name__ == "__main__":
