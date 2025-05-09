@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.utils import secure_filename
 from datetime import datetime
 
 app = Flask(__name__)
@@ -101,8 +102,8 @@ def post_comment():
     conn.close()
     return redirect(url_for(page))
 
-@app.route('/upload' , methods=['GET', 'POST'])
-def upload():
+@app.route('/uploadtest' , methods=['GET', 'POST'])
+def upload_file():
     if request.method == 'POST':
         file = request.files['img']
         filename = secure_filename(file.filename)
