@@ -74,14 +74,14 @@ def login():
         session['user'] = username
         return render_template('home.html')
     else:
-        return f"incorrect username or password"
+        flash("incorrect username or password", 'overlay')
     
     return render_template('login.html')
 
 @app.route('/Logout')
 def logout():
     session.pop('user', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('home.html'))
     
 
 @app.route('/comment', methods=['GET', 'POST'])

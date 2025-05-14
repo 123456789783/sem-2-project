@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='register_stylesheet.css') }}">
+    <script defer src="{{ url_for('static', filename='login.js') }}"></script>
     <title>Login</title>
   </head>
   <body>
@@ -13,5 +14,18 @@
       <input type="password" id="password" name="password" required>
       <button type="submit">Login</button>
     </form>
+    <div id="overlay-container" class="{% if messages %}active{% endif %}">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+                  <div class="overlay-message">{{ message }}</div>
+                  <script>
+                      const overlay = document.getElementById('overlay-container');
+                      overlay.classList.toggle('active');
+                  </script>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+  </div>
   </body>
 </html>
