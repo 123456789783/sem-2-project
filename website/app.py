@@ -42,6 +42,20 @@ def mekanism():
     c.execute('SELECT comment, date FROM comments WHERE page = "mekanism" ORDER BY date DESC')
     comments = c.fetchall()
     conn.close()
+    
+    comment_tree = {}
+    
+    for comment in comments:
+        comment_id = comment['commetID']
+        parent_id = comment['parentID']
+        
+        if parent_id is none:
+            comment_tree[comment_id]
+        
+        
+        
+        
+        
     username = session.get('user')
     return render_template('mekanism.html', comments = comments, logged_in_user = username)
 
@@ -94,10 +108,16 @@ def post_comment():
     page = request.form['page']
     username = session.get('user')
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    parent_id = request.form.get('parentID')
     comment = request.form['comment']
+    
+    if not comment:
+        flash('Type something', 'overlay')
+        return redirect(request.referrer)
+    
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('INSERT INTO comments (comment, date, page) VALUES (?, ?, ?)', (comment, date, page))
+    c.execute('INSERT INTO comments (comment, date, page, parentID) VALUES (?, ?, ?, ?)', (comment, date, page, parent_id))
     conn.commit()
     conn.close()
     return redirect(url_for(page))
