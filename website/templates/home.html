@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Example</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}" />
     <script defer src="{{ url_for('static', filename='home.js') }}"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="whole-page">
-        <div class="off-screen-menu">
-            <br>
-            <ul>
-                <li><a href="{{ url_for('index') }}" class="button-link">Home</a></li>
-                <li><a href="{{ url_for('upload_file') }}" class="button-link">Temp: upload test</a></li>
-                <li><a href="{{ url_for('register') }}" class="button-link">Register</a></li>
-                <li><a href="{{ url_for('login') }}" class="button-link">Login</a></li>
-                <li><a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a></li>
-            </ul>
+      <div class="off-screen-menu">
+        <br />
+        <ul>
+          <li>
+            <a href="{{ url_for('index') }}" class="button-link">Home</a>
+          </li>
+          <li>
+            <a href="{{ url_for('upload_file') }}" class="button-link">Temp: upload test</a>
+          </li>
+          <li>
+            <a href="{{ url_for('register') }}" class="button-link">Register</a>
+          </li>
+          <li>
+            <a href="{{ url_for('login') }}" class="button-link">Login</a>
+          </li>
+          <li>
+            <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
+          </li>
+        </ul>
+      </div>
+      <div class="info"></div>
+      <nav>
+        <div class="info-button">
+          <a href="{{ url_for('info') }}" class="button-link">I</a>
         </div>
-        <div class="info">
-
-        </div>
-        <nav>
-            <div class="info-button">
-                <a href="{{ url_for('info') }}" class="button-link">I</a>
-            </div>
-        </nav>
-        <nav>
-             <div class="ham-menu">
-                ☰ 
-             </div>
-        </nav>
-        <h1>ATM10</h1>
+      </nav>
+      <nav>
+        <div class="ham-menu">☰</div>
+      </nav>
+      <h1>ATM10</h1>
     </div>
-</body>
+  </body>
 </html>

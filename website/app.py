@@ -46,14 +46,11 @@ def mekanism():
     comment_tree = {}
     
     for comment in comments:
-        comment_id = comment['commetID']
-        parent_id = comment['parentID']
+        comment_id = comment[0]
+        parent_id = comment[1]
         
-        if parent_id is none:
-            comment_tree[comment_id]
-        
-        
-        
+        if parent_id is None:
+            comment_tree[comment_id] = {'comment': comment, 'reply': []}
         
         
     username = session.get('user')
@@ -82,13 +79,14 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    if authentecate_user(username, password):
-        session['user'] = username
-        return render_template('home.html')
-    else:
-        flash("incorrect username or password", 'overlay')
+    if request.form:
+        username = request.form['username']
+        password = request.form['password']
+        if authentecate_user(username, password):
+            session['user'] = username
+            return render_template('home.html')
+        else:
+            return f"incorrect username or password"
     
     return render_template('login.html')
 
