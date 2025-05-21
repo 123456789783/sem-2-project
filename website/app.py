@@ -14,12 +14,14 @@ def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
-    cursor.execute('CREATE TABLE IF NOT EXISTS comments (commentId INTEGER PRIMARY KEY AUTOINCREMENT, parentID INTEGER, comment TEXT, date TEXT, page TEXT)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS comments (commentId INTEGER PRIMARY KEY AUTOINCREMENT, parentID INTEGER, comment TEXT, date TEXT, page TEXT, username TEXT)')
     conn.commit()
     conn.close()
     
 def get_db_connection():
-    return sqlite3.connect(DB_FILE)
+    conn = sqlite3.connect(DB_FILE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def authentecate_user(username, password):
     conn = get_db_connection()
@@ -39,22 +41,32 @@ def index():
 def mekanism():
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('SELECT comment, date FROM comments WHERE page = "mekanism" ORDER BY date DESC')
+    c.execute('SELECT commentId, parentID, comment, date, username FROM comments WHERE page = "mekanism" ORDER BY date DESC')
     comments = c.fetchall()
     conn.close()
     
-    comment_tree = {}
+    comment_tree = {} 
     
     for comment in comments:
         comment_id = comment[0]
         parent_id = comment[1]
+        print(parent_id)
         
         if parent_id is None:
             comment_tree[comment_id] = {'comment': comment, 'reply': []}
+                
+    for comment in comments:
+        comment_id = comment[0]
+        parent_id = comment[1]
+        print(parent_id)
         
+        if parent_id is not None:
+            if parent_id in comment_tree:
+                comment_tree[comment_id] = {'comment': comment, 'reply': []}
+                comment_tree[parent_id]['reply'].append(comment_tree[comment_id])
         
     username = session.get('user')
-    return render_template('mekanism.html', comments = comments, logged_in_user = username)
+    return render_template('mekanism.html', comment_tree = comment_tree, logged_in_user = username)
 
 @app.route('/info')
 def info():
@@ -72,7 +84,8 @@ def register():
             conn.commit()
             return render_template('login.html')
         except sqlite3.IntegrityError:
-            return f"Username already exists."
+            flash("Username already exists.", 'overlay')
+            return render_template('register.html')
         finally:
             conn.close()
     return render_template('register.html')
@@ -86,7 +99,7 @@ def login():
             session['user'] = username
             return render_template('home.html')
         else:
-            return f"incorrect username or password"
+            flash("Incorrect username or password.", 'overlay')
     
     return render_template('login.html')
 
@@ -115,7 +128,7 @@ def post_comment():
     
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('INSERT INTO comments (comment, date, page, parentID) VALUES (?, ?, ?, ?)', (comment, date, page, parent_id))
+    c.execute('INSERT INTO comments (comment, date, page, parentID, username) VALUES (?, ?, ?, ?, ?)', (comment, date, page, parent_id, username))
     conn.commit()
     conn.close()
     return redirect(url_for(page))

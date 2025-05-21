@@ -1,61 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Example</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}" />
     <script defer src="{{ url_for('static', filename='meka_website.js') }}"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="off-screen-menu">
-        <br>
-        <ul>
-            <li><a href="{{ url_for('index') }}" class="button-link">Home</a></li>
-            <li>~~~~</li>
-            <li>~~~~</li>
-            <li><a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a></li>
-        </ul>
+      <br />
+      <ul>
+        <li>
+          <a href="{{ url_for('index') }}" class="button-link">Home</a>
+        </li>
+        <li>~~~~</li>
+        <li>~~~~</li>
+        <li>
+          <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
+        </li>
+      </ul>
     </div>
     <nav>
-        <div class="ham-menu">
-           ☰ 
-        </div>
-   </nav>
-<br>
-<h1>Mekanism</h1>
-<p>
-    Mekanism is a mod centered around building machines and upgrading machines. <br>
-    The progression is centered around 4 tiers of items and machines with each tier being more expensive then the last<br>
-    Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the endgoal is the anti-matter pellet and <br>
-    the gravitatinal modulating unit which are needed to make the atm star.
-</p>
+      <div class="ham-menu">☰</div>
+    </nav>
+    <br />
+    <h1>Mekanism</h1>
+    <p>
+      Mekanism is a mod centered around building machines and upgrading machines. <br />
+      The progression is centered around 4 tiers of items and machines with each tier being more expensive then the last<br />
+      Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the endgoal is the anti-matter pellet and <br />
+      the gravitatinal modulating unit which are needed to make the atm star.
+    </p>
 
-<br>
+    <br />
 
-<form action = "/comment" method = "POST">
-    <input type = "hidden" name = "page" value = "mekanism">
-    <textarea name = "comment" required></textarea>
-    <button type="submit">Post Comment</button>
-</form>
-<div>
-    {% for comment, date in comments %}
-        <p><strong>{{ logged_in_user }}</strong> <br>{{ comment }} <br> <span> {{ date }} </span> </p>
-    {% endfor %}
-</div>
+    <form action="/comment" method="POST">
+      <input type="hidden" name="page" value="mekanism" />
+      <textarea name="comment" required></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+    <div>
+        {% for comment_id, comment_data in comment_tree.items() %}
+            <div class="comment">
+              <p> {{comment_data}} </p>
+                <p><strong>{{ comment_data.comment['username'] }}</strong></p>
+                <p>{{ comment_data.comment['comment'] }}</p>
+                <p><small>{{ comment_data.comment['date'] }}</small></p>
+    
+                <form action="/comment" method="POST">
+                    <input type="hidden" name="page" value="mekanism">
+                    <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
+                    <textarea name="comment" required></textarea>
+                    <button type="submit">Reply</button>
+                </form>
+    
+                {% for reply in comment_data.reply %}
+                    <div class="reply">
+                        <p><strong>{{ reply['username'] }}</strong></p>
+                        <p>{{ reply[2] }}</p>
+                        <p><small>{{ reply['date'] }}</small></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 
-<div id="overlay-container" class="{% if messages %}active{% endif %}">
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    <div id="overlay-container" class="{% if messages %}active{% endif %}">
+      {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            {% for category, message in messages %}
-                <div class="overlay-message">{{ message }}</div>
-                <script>
-                    const overlay = document.getElementById('overlay-container');
-                    overlay.classList.toggle('active');
-                </script>
-            {% endfor %}
+          {% for category, message in messages %}
+            <div class="overlay-message">{{ message }}</div>
+            <script>
+              const overlay = document.getElementById('overlay-container')
+              overlay.classList.toggle('active')
+            </script>
+          {% endfor %}
         {% endif %}
-    {% endwith %}
-</div>
-</body>
+      {% endwith %}
+    </div>
+  </body>
+</html>

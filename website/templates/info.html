@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Example</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='info_stylesheet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='info_stylesheet.css') }}" />
     <script defer src="{{ url_for('static', filename='info.js') }}"></script>
-
-</head>
-<body>
+  </head>
+  <body>
     <div id="whole-page">
-        <div class="off-screen-menu">
-            <br>
-            <ul>
-                <li><a href="{{ url_for('index') }}" class="button-link">Home</a></li>
-                <li>~~~~</li>
-                <li>~~~~</li>
-                <li><a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a></li>
-            </ul>
-        </div>
-        <nav>
-             <div class="ham-menu">
-                ☰ 
-             </div>
-        </nav>
-        <p>
-            <br>
-            aaaaa
-        </p>
+      <div class="off-screen-menu">
+        <br />
+        <ul>
+          <li>
+            <a href="{{ url_for('index') }}" class="button-link">Home</a>
+          </li>
+          <li>~~~~</li>
+          <li>~~~~</li>
+          <li>
+            <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
+          </li>
+        </ul>
+      </div>
+      <nav>
+        <div class="ham-menu">☰</div>
+      </nav>
+      <p>
+        <br />
+        aaaaa
+      </p>
     </div>
-    
-</body>
+  </body>
 </html>
