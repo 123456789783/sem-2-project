@@ -10,3 +10,8 @@ setTimeout(() => {
         overlay.classList.remove('active');
     }
 }, 1000);
+
+document.getElementById('show-reply').onclick = function() {
+    document.getElementById('reply-box').style.display = 'block';
+    this.style.display = 'none';
+};

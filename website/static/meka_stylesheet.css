@@ -121,7 +121,28 @@ form[action="/comment"] button:hover {
     text-align: center;
 }
 
+#reply-box {
+    display: none;
+}
+
+.show-link {
+    color: white;
+    cursor: pointer;
+}
+
 .reply {
-    display: flex;
-    font-size: 20px;
+    margin-left: 50px;
+}
+
+details > summary {
+    display: inline;
+}
+
+summary.custom-arrow::before {
+    content: "▶ ";
+    display: inline-block;
+    transition: transform 0.2s;
+}
+  details[open] summary.custom-arrow::before {
+    content: "▼ ";
 }

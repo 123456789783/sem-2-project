@@ -43,25 +43,29 @@
     <div>
         {% for comment_id, comment_data in comment_tree.items() %}
             <div class="comment">
-              <p> {{comment_data}} </p>
                 <p><strong>{{ comment_data.comment['username'] }}</strong></p>
                 <p>{{ comment_data.comment['comment'] }}</p>
                 <p><small>{{ comment_data.comment['date'] }}</small></p>
-    
+
+                <span class="show-link" id="show-reply">reply</span>
+                <div id='reply-box'>
                 <form action="/comment" method="POST">
                     <input type="hidden" name="page" value="mekanism">
                     <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
                     <textarea name="comment" required></textarea>
                     <button type="submit">Reply</button>
                 </form>
-    
+              </div>
+              <details>
+                <summary class='custom-arrow', style="cursor:pointer; color:white;">replies - {{ comment_data.reply|length }}</summary>
                 {% for reply in comment_data.reply %}
                     <div class="reply">
-                        <p><strong>{{ reply['username'] }}</strong></p>
-                        <p>{{ reply[2] }}</p>
-                        <p><small>{{ reply['date'] }}</small></p>
+                        <p><strong>{{ reply.comment['username'] }}</strong></p>
+                        <p>{{ reply.comment['comment'] }}</p>
+                        <p><small>{{ reply.comment['date'] }}</small></p>
                     </div>
                 {% endfor %}
+              </details>
             </div>
         {% endfor %}
     </div>

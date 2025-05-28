@@ -4,4 +4,3 @@ setTimeout(() => {
         overlay.classList.remove('active');
     }
 }, 1000);
-

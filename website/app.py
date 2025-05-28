@@ -13,7 +13,7 @@ app.config['UPLOAD'] = upload_folder
 def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT )')
+    cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, profile IMG )')
     cursor.execute('CREATE TABLE IF NOT EXISTS comments (commentId INTEGER PRIMARY KEY AUTOINCREMENT, parentID INTEGER, comment TEXT, date TEXT, page TEXT, username TEXT)')
     conn.commit()
     conn.close()
@@ -48,17 +48,17 @@ def mekanism():
     comment_tree = {} 
     
     for comment in comments:
-        comment_id = comment[0]
-        parent_id = comment[1]
-        print(parent_id)
+        comment = dict(comment)
+        comment_id = comment['commentId']
+        parent_id = comment['parentID']
         
         if parent_id is None:
             comment_tree[comment_id] = {'comment': comment, 'reply': []}
                 
     for comment in comments:
-        comment_id = comment[0]
-        parent_id = comment[1]
-        print(parent_id)
+        comment = dict(comment)
+        comment_id = comment['commentId']
+        parent_id = comment['parentID']
         
         if parent_id is not None:
             if parent_id in comment_tree:
