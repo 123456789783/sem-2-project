@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Industrial Foregoing Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}" />
+    <script defer src="{{ url_for('static', filename='meka_website.js') }}"></script>
+  </head>
+  <body>
+    <!-- Slide-out navigation menu -->
+    <div class="off-screen-menu">
+      <br/>
+      <ul>
+        <li>
+          <a href="{{ url_for('index') }}" class="button-link">Home</a>
+        </li>
+        <li><a href="{{ url_for('mystical_agriculture') }}" class="button-link">Mystical Ag</a>
+        </li>
+        <li>
+          <a href="{{ url_for('mekanism') }}" class="button-link">Mekanism</a>
+        </li>
+        <li>
+          <a href="{{ url_for('industrial_foregoing') }}" class="button-link">Industrial F</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Menu icon -->
+    <nav>
+      <div class="ham-menu">☰</div>
+    </nav>
+
+    <br />
+    <!-- Page title -->
+    <h1>Industrial Foregoing</h1>
+
+    <!-- Description of the mod -->
+    <p>
+      Industrial Foregoing is a tech mod focused on automation and resource processing in Minecraft. <br />
+      It provides machines for farming, mining, mob processing, and energy generation with a focus on efficiency.<br />
+      The mod features plastic-based recipes, latex production from trees, and various upgrade systems for machines.<br />
+      Industrial Foregoing Souls adds soul-based machine speeding, allowing machines to capture and utilize warden souls for faster machine processing.
+    </p>
+
+    <br />
+
+    <!-- Form to submit a new comment -->
+    <form action="/comment" method="POST">
+      <input type="hidden" name="page" value="industrial_foregoing" />
+      <textarea name="comment" required placeholder="Share your thoughts about Industrial Foregoing..."></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+
+    <!-- Display comments and replies -->
+    <div>
+        {% for comment_id, comment_data in comment_tree.items() %}
+            <div class="comment">
+                <p><strong>{{ comment_data.comment['username'] }}</strong></p>
+                <p>{{ comment_data.comment['comment'] }}</p>
+                <p><small>{{ comment_data.comment['date'] }}</small></p>
+
+                <!-- Link to show/hide reply box -->
+                <span class="show-link reply-toggle" data-target="reply-box-{{ comment_id }}">reply</span>
+
+                <!-- Hidden reply form -->
+                <div class="reply-box" id="reply-box-{{ comment_id }}" style="display: none;">
+                    <form action="/comment" method="POST">
+                        <input type="hidden" name="page" value="industrial_foregoing">
+                        <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
+                        <textarea name="comment" required placeholder="Write your reply..."></textarea>
+                        <button type="submit">Reply</button>
+                    </form>
+                </div>
+
+                <!-- Toggle to show replies -->
+                <details>
+                    <summary class="custom-arrow" style="cursor:pointer; color:white;">replies - {{ comment_data.reply|length }}</summary>
+                    {% for reply in comment_data.reply %}
+                        <div class="reply">
+                            <p><strong>{{ reply.comment['username'] }}</strong></p>
+                            <p>{{ reply.comment['comment'] }}</p>
+                            <p><small>{{ reply.comment['date'] }}</small></p>
+                        </div>
+                    {% endfor %}
+                </details>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Flash message overlay -->
+    <div id="overlay-container" class="{% if messages %}active{% endif %}">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="overlay-message">{{ message }}</div>
+            <script>
+              const overlay = document.getElementById('overlay-container')
+              overlay.classList.toggle('active')
+            </script>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- JavaScript to toggle reply boxes -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const replyToggles = document.querySelectorAll('.reply-toggle');
+        
+        replyToggles.forEach(toggle => {
+          toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const replyBox = document.getElementById(targetId);
+            
+            if (replyBox.style.display === 'none' || replyBox.style.display === '') {
+              replyBox.style.display = 'block';
+              this.textContent = 'cancel';
+            } else {
+              replyBox.style.display = 'none';
+              this.textContent = 'reply';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

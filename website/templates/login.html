@@ -7,18 +7,25 @@
     <title>Login</title>
   </head>
   <body>
+    <!-- Login form -->
     <form method="POST" action="/login">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required />
+
+      <!-- Password input -->
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required />
       <button type="submit">Login</button>
     </form>
+  
+    <!-- Overlay for flash messages -->
     <div id="overlay-container" class="{% if messages %}active{% endif %}">
       {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
+            <!-- Show each flash message -->
             <div class="overlay-message">{{ message }}</div>
+            <!-- Show overlay -->
             <script>
               const overlay = document.getElementById('overlay-container')
               overlay.classList.toggle('active')

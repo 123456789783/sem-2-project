@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mystical Agriculture</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='meka_stylesheet.css') }}" />
+    <script defer src="{{ url_for('static', filename='meka_website.js') }}"></script>
+  </head>
+  <body>
+
+    <!-- Slide-out navigation menu -->
+    <div class="off-screen-menu">
+      <br />
+      <ul>
+        <li>
+          <a href="{{ url_for('index') }}" class="button-link">Home</a>
+        </li>
+        <li>
+          <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
+        </li>
+        <li>
+          <a href="{{ url_for('industrial_foregoing') }}" class="button-link">Industrial F</a>
+        </li>
+        <li>
+          <a href="{{ url_for('mystical_agriculture') }}" class="button-link">Mystical Ag</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hamburger menu icon -->
+    <nav>
+      <div class="ham-menu">☰</div>
+    </nav>
+
+    <br />
+
+    <!-- Page title and description -->
+    <h1>Mystical Agriculture</h1>
+    <p>
+      Mystical Agriculture is a mod that allows you to grow resources instead of mining them. <br/>
+      The mod introduces seeds that can be planted to grow various materials including ores and mob drops. <br/>
+      The progression system revolves around 6 tiers of essence and seeds, with each tier providing better materials and slower growth. <br/>
+      The core mechanic involves growing Inferium Essence, which can be crafted into higher tier essences up to awakened supremium/insanium. <br/>
+      These essences are then used to create seeds for specific resources, making it the best resource generation method. <br/>
+      The mod includes farmland tiers that boost growth speed and yield, with the highest tier providing significant however they get outclassed by other mods farmland. <br/>
+      The mod also includes armor and tools made from essences, with Supremium gear being good enough for early game. <br/>
+      Growth accelerators can be placed under farmland to further increase growth speed, and watering cans help with manual farming. <br/>
+      Mystical Agriculture is the only was to get millions of items needed for the ATM star<br/>
+    </p>
+
+    <br />
+
+    <!-- Comment form -->
+    <form action="/comment" method="POST">
+      <input type="hidden" name="page" value="mystical_agriculture" />
+      <textarea name="comment" required placeholder="Share your thoughts about Mystical Agriculture..."></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+
+    <!-- Display comments and replies -->
+    <div>
+        {% for comment_id, comment_data in comment_tree.items() %}
+            <div class="comment">
+                <!-- Main comment content -->
+                <p><strong>{{ comment_data.comment['username'] }}</strong></p>
+                <p>{{ comment_data.comment['comment'] }}</p>
+                <p><small>{{ comment_data.comment['date'] }}</small></p>
+
+                <!-- Toggle comment form -->
+                <span class="show-link reply-toggle" data-target="reply-box-{{ comment_id }}">reply</span>
+                <div class="reply-box" id="reply-box-{{ comment_id }}" style="display: none;">
+                    <form action="/comment" method="POST">
+                        <input type="hidden" name="page" value="mystical_agriculture">
+                        <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
+                        <textarea name="comment" required placeholder="Write your reply..."></textarea>
+                        <button type="submit">Reply</button>
+                    </form>
+                </div>
+
+                <!-- Toggle to show reply form -->
+                <details>
+                    <summary class="custom-arrow" style="cursor:pointer; color:white;">replies - {{ comment_data.reply|length }}</summary>
+                    {% for reply in comment_data.reply %}
+                        <div class="reply">
+                            <p><strong>{{ reply.comment['username'] }}</strong></p>
+                            <p>{{ reply.comment['comment'] }}</p>
+                            <p><small>{{ reply.comment['date'] }}</small></p>
+                        </div>
+                    {% endfor %}
+                </details>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Flash message overlay -->
+    <div id="overlay-container" class="{% if messages %}active{% endif %}">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="overlay-message">{{ message }}</div>
+            <script>
+              const overlay = document.getElementById('overlay-container')
+              overlay.classList.toggle('active')
+            </script>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- JavaScript to show replys -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const replyToggles = document.querySelectorAll('.reply-toggle');
+        
+        replyToggles.forEach(toggle => {
+          toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const replyBox = document.getElementById(targetId);
+            
+            if (replyBox.style.display === 'none' || replyBox.style.display === '') {
+              replyBox.style.display = 'block';
+              this.textContent = 'cancel';
+            } else {
+              replyBox.style.display = 'none';
+              this.textContent = 'reply';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

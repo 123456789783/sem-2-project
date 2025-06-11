@@ -8,6 +8,7 @@
     <script defer src="{{ url_for('static', filename='home.js') }}"></script>
   </head>
   <body>
+    <!-- Slide-out navigation menu -->
     <div id="whole-page">
       <div class="off-screen-menu">
         <br />
@@ -16,16 +17,18 @@
             <a href="{{ url_for('index') }}" class="button-link">Home</a>
           </li>
           <li>
-            <a href="{{ url_for('upload_file') }}" class="button-link">Temp: upload test</a>
+            <a href="{{ url_for('industrial_foregoing') }}" class="button-link">Industrial F</a>
           </li>
           <li>
-            <a href="{{ url_for('register') }}" class="button-link">Register</a>
+            <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
           </li>
+          <li>
+            <a href="{{ url_for('mystical_agriculture') }}" class="button-link">Mystical Ag</a>
           <li>
             <a href="{{ url_for('login') }}" class="button-link">Login</a>
           </li>
           <li>
-            <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
+            <a href="{{ url_for('register') }}" class="button-link">Register</a>
           </li>
         </ul>
       </div>
@@ -35,6 +38,7 @@
           <a href="{{ url_for('info') }}" class="button-link">I</a>
         </div>
       </nav>
+      <!-- Menu icon -->
       <nav>
         <div class="ham-menu">☰</div>
       </nav>

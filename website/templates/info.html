@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Set character encoding and scaling for devices -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Example</title>
+
+    <!-- Page title -->
+    <title>ATM10</title>
+
+    <!-- Link to Css and Js file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='info_stylesheet.css') }}" />
     <script defer src="{{ url_for('static', filename='info.js') }}"></script>
   </head>
+
   <body>
     <div id="whole-page">
+      
+      <!-- Hamburger menu -->
       <div class="off-screen-menu">
         <br />
         <ul>
           <li>
             <a href="{{ url_for('index') }}" class="button-link">Home</a>
           </li>
-          <li>~~~~</li>
-          <li>~~~~</li>
-          <li>
-            <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
-          </li>
         </ul>
       </div>
+
+      <!-- Nav icon -->
       <nav>
-        <div class="ham-menu">☰</div>
+        <div class="ham-menu">← </div>
       </nav>
+      
+      <!-- Main title -->
+      <h1>All The Mods 10</h1>
+
+      <!-- Info on ATM10 -->
       <p>
-        <br />
-        aaaaa
+        All The Mods 10 is a Minecraft modpack with over 470 mods. It's still being worked on, so expect bugs and updates. The pack runs on Minecraft 1.21 using NeoForge.<br/>
+        You need at least 10GB of RAM on your computer and should give Minecraft 8-12GB of RAM to run this pack smoothly.<br/>
+        ATM10 uses EMI instead of JEI for looking up recipes. With hundreds of quests progressing through ATM10 is very straight forward.<br/>
+        You can download it from CurseForge. If you find bugs, report them on GitHub, Discord server or Reddit forum. The pack gets updated regularly as new mods come out for Minecraft 1.21 and updates for mods get released.<br/>
       </p>
     </div>
   </body>

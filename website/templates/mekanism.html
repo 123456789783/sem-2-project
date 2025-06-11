@@ -8,80 +8,124 @@
     <script defer src="{{ url_for('static', filename='meka_website.js') }}"></script>
   </head>
   <body>
+    <!-- Slide-out navigation menu -->
     <div class="off-screen-menu">
       <br />
       <ul>
         <li>
           <a href="{{ url_for('index') }}" class="button-link">Home</a>
         </li>
-        <li>~~~~</li>
-        <li>~~~~</li>
+        <li>
+          <a href="{{ url_for('mystical_agriculture') }}" class="button-link">Mystical Ag</a>
+        </li>
         <li>
           <a href="{{ url_for('mekanism') }}" class="button-link">Mekaism</a>
         </li>
+        <li>
+          <a href="{{ url_for('industrial_foregoing') }}" class="button-link">Industrial F</a>
+        </li>
       </ul>
     </div>
+  
+    <!-- Hamburger menu icon -->
     <nav>
       <div class="ham-menu">☰</div>
     </nav>
+  
     <br />
+  
+    <!-- Page title and description -->
     <h1>Mekanism</h1>
     <p>
       Mekanism is a mod centered around building machines and upgrading machines. <br />
-      The progression is centered around 4 tiers of items and machines with each tier being more expensive then the last<br />
-      Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the endgoal is the anti-matter pellet and <br />
-      the gravitatinal modulating unit which are needed to make the atm star.
+      The progression is centered around 4 tiers of items and machines with each tier being more expensive than the last.<br />
+      Mekanism as a stand-alone mod has no ultimate end goal, but for ATM10 the end goal is the anti-matter pellet and <br />
+      the gravitational modulating unit which are needed to make the ATM star. <br />
+      Mekanism also has ore processing, with different tiers — the final tier offering a 7x multiplier on ores, though this is outclassed by Mystical Agriculture.<br />
+      Mekanism's endgame gear, such as the Mekasuit, provides excellent protection and practicality.<br />
+      It also produces some chemicals and gases, but some are incompatible with mods like modern GregTech.<br/>
     </p>
-
+  
     <br />
-
+  
+    <!-- Comment form -->
     <form action="/comment" method="POST">
       <input type="hidden" name="page" value="mekanism" />
-      <textarea name="comment" required></textarea>
+      <textarea name="comment" required placeholder="Share your thoughts about Mekanism..."></textarea>
       <button type="submit">Post Comment</button>
     </form>
+  
+    <!-- Display comments and replies -->
     <div>
-        {% for comment_id, comment_data in comment_tree.items() %}
-            <div class="comment">
-                <p><strong>{{ comment_data.comment['username'] }}</strong></p>
-                <p>{{ comment_data.comment['comment'] }}</p>
-                <p><small>{{ comment_data.comment['date'] }}</small></p>
-
-                <span class="show-link" id="show-reply">reply</span>
-                <div id='reply-box'>
-                <form action="/comment" method="POST">
-                    <input type="hidden" name="page" value="mekanism">
-                    <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
-                    <textarea name="comment" required></textarea>
-                    <button type="submit">Reply</button>
-                </form>
+      {% for comment_id, comment_data in comment_tree.items() %}
+        <div class="comment">
+          <!-- Main comment content -->
+          <p><strong>{{ comment_data.comment['username'] }}</strong></p>
+          <p>{{ comment_data.comment['comment'] }}</p>
+          <p><small>{{ comment_data.comment['date'] }}</small></p>
+  
+          <!-- Toggle comment form -->
+          <span class="show-link reply-toggle" data-target="reply-box-{{ comment_id }}">reply</span>
+          <div class="reply-box" id="reply-box-{{ comment_id }}" style="display: none;">
+            <form action="/comment" method="POST">
+              <input type="hidden" name="page" value="mekanism">
+              <input type="hidden" name="parentID" value="{{ comment_data.comment['commentId'] }}">
+              <textarea name="comment" required placeholder="Write your reply..."></textarea>
+              <button type="submit">Reply</button>
+            </form>
+          </div>
+  
+          <!-- Toggle to show reply form -->
+          <details>
+            <summary class="custom-arrow" style="cursor:pointer; color:white;">replies - {{ comment_data.reply|length }}</summary>
+            {% for reply in comment_data.reply %}
+              <div class="reply">
+                <p><strong>{{ reply.comment['username'] }}</strong></p>
+                <p>{{ reply.comment['comment'] }}</p>
+                <p><small>{{ reply.comment['date'] }}</small></p>
               </div>
-              <details>
-                <summary class='custom-arrow', style="cursor:pointer; color:white;">replies - {{ comment_data.reply|length }}</summary>
-                {% for reply in comment_data.reply %}
-                    <div class="reply">
-                        <p><strong>{{ reply.comment['username'] }}</strong></p>
-                        <p>{{ reply.comment['comment'] }}</p>
-                        <p><small>{{ reply.comment['date'] }}</small></p>
-                    </div>
-                {% endfor %}
-              </details>
-            </div>
-        {% endfor %}
+            {% endfor %}
+          </details>
+        </div>
+      {% endfor %}
     </div>
-
+  
+    <!-- Flash message overlay -->
     <div id="overlay-container" class="{% if messages %}active{% endif %}">
       {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
             <div class="overlay-message">{{ message }}</div>
             <script>
-              const overlay = document.getElementById('overlay-container')
-              overlay.classList.toggle('active')
+              const overlay = document.getElementById('overlay-container');
+              overlay.classList.toggle('active');
             </script>
           {% endfor %}
         {% endif %}
       {% endwith %}
     </div>
+  
+    <!-- JavaScript to show replys -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const replyToggles = document.querySelectorAll('.reply-toggle');
+        
+        replyToggles.forEach(toggle => {
+          toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const replyBox = document.getElementById(targetId);
+            
+            if (replyBox.style.display === 'none' || replyBox.style.display === '') {
+              replyBox.style.display = 'block';
+              this.textContent = 'cancel';
+            } else {
+              replyBox.style.display = 'none';
+              this.textContent = 'reply';
+            }
+          });
+        });
+      });
+    </script>
   </body>
+  
 </html>
